@@ -25,4 +25,21 @@ class TodoRepository
     {
         return $this->model->findorfail($id);
     }
+
+    public function store($data)
+    {
+        return Todo::create([
+            'name' => $data['name'],
+            "completed" => $data['completed'],
+        ]);
+    }
+
+    public function update($id, $data)
+    {
+//        $contact = Contact::findorfail($id)->update($request->all())
+        return Todo::findorfail($id)->update([
+            'name' => $data['name'],
+            "completed" => $data['completed'],
+        ]);
+    }
 }

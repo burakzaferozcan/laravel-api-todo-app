@@ -27,4 +27,9 @@ Route::prefix("auth")->group(function () {
 });
 Route::prefix("todo")->middleware("auth:api")->group(function () {
     Route::get("/list", [TodoController::class, 'index']);
+    Route::post("/store", [TodoController::class, 'store']);
+    Route::get("/{id}/get", [TodoController::class, 'getById']);
+
+    Route::put("/{id}/update", [TodoController::class, 'update']);
+
 });
