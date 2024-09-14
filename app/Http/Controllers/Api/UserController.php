@@ -31,12 +31,23 @@ class UserController extends Controller
             "email" => $requestData["email"],
             "password" => $requestData["password"],
         ]);
-        return apiResponse("register message", 200, $data);
+        return apiResponse("Kayıt başarıyla oluşturuldu.", 200, $data);
     }
 
     public function login(Request $request)
     {
-        $data = $request->all();
-        return apiResponse("login message", 200, $data);
+        $this->validate($request, [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ], [
+            "email" => "Email Zorunlu",
+            "password" => "Şifre Zorunlu"
+        ]);
+        if (auth()->attempt(["email" => $request->email, "password" => $request->password])) {
+            $user = auth()->user();
+            $token = $user->createToken("api_case")->accessToken;
+            return apiResponse("Giriş başarılı", 200, ["token" => $token, "user" => $user]);
+        }
+        return apiResponse("Unauthorized", 401);
     }
 }

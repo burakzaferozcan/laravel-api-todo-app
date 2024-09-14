@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\TodoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix("auth")->group(function () {
     Route::post("/register", [UserController::class, 'register']);
     Route::post("/login", [UserController::class, 'login']);
+});
+Route::prefix("todo")->middleware("auth:api")->group(function () {
+    Route::get("/list", [TodoController::class, 'index']);
 });
