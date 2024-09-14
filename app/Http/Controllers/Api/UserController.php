@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     //
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function register(Request $request)
     {
         $requestData = $request->all();
@@ -26,12 +34,9 @@ class UserController extends Controller
             'password.required' => "Şifre alanı zorunlu!",
             "password.min" => "Şifre en az 6 karakterden oluşmalıdır!"
         ]);
-        $data = User::create([
-            "name" => $requestData["name"],
-            "email" => $requestData["email"],
-            "password" => $requestData["password"],
-        ]);
-        return apiResponse("Kayıt başarıyla oluşturuldu.", 200, $data);
+
+        $data = $this->userService->register($requestData);
+        return apiResponse("Kayıt başarıyla oluşturuldu.", 200, ["user" => $data]);
     }
 
     public function login(Request $request)

@@ -36,7 +36,6 @@ class TodoRepository
 
     public function update($id, $data)
     {
-//        $contact = Contact::findorfail($id)->update($request->all())
         return Todo::findorfail($id)->update([
             'name' => $data['name'],
             "completed" => $data['completed'],
