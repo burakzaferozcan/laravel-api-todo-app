@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,5 +53,14 @@ class UserController extends Controller
     public function myProfile(Request $request)
     {
         return Auth::guard("api")->user();
+    }
+
+    public function updateUserImage(Request $request)
+    {
+        $user = $this->userService->updateUserImage(auth()->user()->id, $request->file('image'));
+        if ($user) {
+            return apiResponse("Updated Image", 200, ["user" => new UserResource($user)]);
+        }
+        return apiResponse("Information is incorrect", 400);
     }
 }

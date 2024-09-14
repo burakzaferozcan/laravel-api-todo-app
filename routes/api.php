@@ -37,4 +37,6 @@ Route::prefix("todo")->middleware("auth:api")->group(function () {
 
 Route::prefix("auth")->middleware("auth:api")->group(function () {
     Route::get("/myProfile", [UserController::class, 'myProfile']);
+    Route::post("/update/image", [UserController::class, 'updateUserImage']);
+
 });

@@ -40,20 +40,20 @@ class UserRepository
     }
 
 
-
-    public function find()
+    public function updateUserImage($userId, $image)
     {
+        $user = $this->find($userId);
+        if ($user) {
+            removeImage($user->image);
+            $folderName = "img/user";
+            $fileName = "profile";
+            $imageUrl = uploadImage($image, $fileName, $folderName);
 
-    }
-
-    public function user()
-    {
-
-    }
-
-    public function updateUserImage()
-    {
-
+            $user->image = $imageUrl;
+            $user->save();
+            return $user;
+        }
+        return null;
     }
 
 }
