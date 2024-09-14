@@ -23,7 +23,7 @@ class TodoRepository
 
     public function find($id)
     {
-        return $this->model->findorfail($id);
+        return Todo::findorfail($id);
     }
 
     public function store($data)
@@ -41,5 +41,10 @@ class TodoRepository
             'name' => $data['name'],
             "completed" => $data['completed'],
         ]);
+    }
+
+    public function delete($id)
+    {
+        return Todo::findorfail($id)->delete();
     }
 }

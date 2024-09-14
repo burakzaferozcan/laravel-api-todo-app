@@ -26,7 +26,7 @@ class TodoController extends Controller
 
     public function getById($id, Request $request)
     {
-        return $todos = $this->todoService->find($id);
+        return $this->todoService->find($id);
     }
 
     public function store(Request $request)
@@ -56,6 +56,13 @@ class TodoController extends Controller
             return apiResponse(("Validation error"), 401, ["errors" => $validator->errors()]);
         }
         $todo = $this->todoService->update($id, $data);
-        return apiResponse(("Todo Güncellendi."), 200, $data);
+        return apiResponse(("Todo güncellendi."), 200, $data);
+    }
+
+    public function destroy($id, Request $request)
+    {
+         $todo = $this->todoService->delete($id);
+        return apiResponse(("Todo başarıyla silindi."), 200, $todo);
+
     }
 }
