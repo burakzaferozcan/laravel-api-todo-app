@@ -24,6 +24,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix("auth")->group(function () {
     Route::post("/register", [UserController::class, 'register']);
     Route::post("/login", [UserController::class, 'login']);
+    Route::get("/logout", [UserController::class, 'logout']);
+    Route::get("/myProfile", [UserController::class, 'myProfile']);
 });
 Route::prefix("todo")->middleware("auth:api")->group(function () {
     Route::get("/list", [TodoController::class, 'index']);
@@ -31,5 +33,8 @@ Route::prefix("todo")->middleware("auth:api")->group(function () {
     Route::get("/{id}/get", [TodoController::class, 'getById']);
     Route::put("/{id}/update", [TodoController::class, 'update']);
     Route::delete("/{id}/delete", [TodoController::class, 'destroy']);
+});
 
+Route::prefix("auth")->middleware("auth:api")->group(function () {
+    Route::get("/myProfile", [UserController::class, 'myProfile']);
 });

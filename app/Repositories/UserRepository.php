@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
 class UserRepository
 {
@@ -30,10 +31,21 @@ class UserRepository
         }
     }
 
-    public function login()
+    public function login($data)
     {
-
+        Validator::validate($data, [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ], [
+            "email" => "Email Zorunlu",
+            "password" => "Şifre Zorunlu"
+        ]);
+        if (auth()->attempt(["email" => $data["email"], "password" => $data["password"]])) {
+            return auth()->user();
+        }
     }
+
+
 
     public function find()
     {
