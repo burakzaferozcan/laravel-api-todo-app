@@ -33,13 +33,7 @@ class UserRepository
 
     public function login($data)
     {
-        Validator::validate($data, [
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ], [
-            "email" => "Email Zorunlu",
-            "password" => "Şifre Zorunlu"
-        ]);
+
         if (auth()->attempt(["email" => $data["email"], "password" => $data["password"]])) {
             return auth()->user();
         }
